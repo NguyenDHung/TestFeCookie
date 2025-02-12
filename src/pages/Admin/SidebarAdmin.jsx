@@ -1,11 +1,11 @@
 import React from "react";
-import LogoutButton from "../../assets/Logout/LogoutButton.jpg";
+import LogoutButton from "../../assets/Logout/logoutbutton.jpg";
 import { Link, useLocation } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
 import VoucherIcon from "../../assets/Admin/VoucherIcon.png";
 import DashboardIcon from "../../assets/Admin/DashboardIcon.jpg";
-import PreOrderIcon from "../../assets/Admin/Pre-OrderIcon.png";
+import PreOrderIcon from "../../assets/Admin/Pre-orderIcon.png";
 import CampaignIcon from "../../assets/Admin/CampaignIcon.png";
 
 const SideBarAdmin = () => {
