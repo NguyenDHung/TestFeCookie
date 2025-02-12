@@ -19,15 +19,7 @@ function App() {
           {publicRoutes.map((route, index) => RenderRoute(route, index))}
           {privateRoutes.map((route, index) => RenderRoute(route, index, true))}
         </Routes>
-        <Routes>
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="usermanagerment" element={<UserManagerment />} />
-            <Route path="campaignmanagerment" element={<CampaignManagerment />} />
-            <Route path="voucher" element={<Voucher />} />
-            <Route path="pre-ordercampaign" element={<PreOrderCampaign />} />
-            <Route path="dashboard" element={<Dashboard />} />
-          </Route>
-        </Routes>
+  
       </Router>
     </AuthProvider>
   );
