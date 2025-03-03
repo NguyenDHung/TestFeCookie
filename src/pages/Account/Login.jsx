@@ -1,6 +1,7 @@
 import { Button, Form, Input } from 'antd';
-import { Link, useNavigate } from 'react-router';
-import { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import GoogleIcon from '../../assets/Login/GoogleIcon.png';
 import FacebookIcon from '../../assets/Login/FacebookIcon.png';
@@ -10,37 +11,56 @@ import { ApiLoginByEmailAndPassword, ApiGetCurrentAccountRole } from '../../api/
 function LoginPage() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
-    const { setAuth } = useContext(AuthContext);
+    const { setAuth, auth } = useContext(AuthContext);
+    const location = useLocation();
+
+    const fromPage = location.state?.from?.pathname || "/";
 
     const CallApiLoginByEmailAndPassword = async (payload) => {
         const responseLogin = await ApiLoginByEmailAndPassword({ payload });
-        if (responseLogin.status === 200) {
+        if (responseLogin?.status === 200) {
             await CallApiGetCurrentAccountRole();
-            // navigate('/')
+            toast.success('Đăng nhập thành công!');
+            navigate(fromPage, { replace: true });
+        } else {
+            toast.error('Đăng nhập thất bại!');
         }
     }
 
     const CallApiGetCurrentAccountRole = async () => {
         const response = await ApiGetCurrentAccountRole();
-        console.log('>>> Response Role: ', response);
+        setAuth({
+            roleName: response.roleName,
+        })
     }
 
     const onFinish = async (values) => {
         await CallApiLoginByEmailAndPassword(values);
     }
 
+    // Chặn người dùng đã đăng nhập vào trang login
+    const checkRole = () => {
+        if (auth.roleName.toLowerCase() !== 'guest' && fromPage === '/') {
+            navigate('/')
+        }
+    }
+
+    useEffect(() => {
+        checkRole();
+    }, [auth])
+
     return (
         <div className="bg-[#f2f7fb] ">
-            <div className="w-full max-w-[540px] mx-auto min-h-[100vh] text-center flex items-center justify-center">
+            <div className="w-full max-w-[540px] mx-auto min-h-[95vh] text-center flex items-center justify-center">
                 <div className="flex flex-col justify-center grow-1 w-full">
                     <div className="flex flex-col bg-[white] rounded-[20px] p-[30px] text-start gap-[40px]">
                         {/* Phần chữ giới thiệu */}
                         <div>
                             <h3 className="text-[24px] font-bold leading-[37px]">
-                                Login to account
+                                Đăng nhập
                             </h3>
                             <div className="text-[#575864] text-[14px] font-normal leading-[20px]">
-                                Enter your email & password to login
+                                Nhập email và mật khẩu để đăng nhập
                             </div>
                         </div>
                         {/* Phần điền form đăng nhập */}
@@ -48,7 +68,7 @@ function LoginPage() {
                             <Form layout='vertical' form={form} onFinish={onFinish}>
                                 <Form.Item
                                     className='font-bold text-[14px] leading-[20px] text-[#111] mb-[10px]'
-                                    label="Email address"
+                                    label="Địa chỉ email"
                                     name="email"
                                     rules={[
                                         {
@@ -66,7 +86,7 @@ function LoginPage() {
 
                                 <Form.Item
                                     className='font-bold text-[14px] leading-[20px] text-[#111] mb-[10px]'
-                                    label="Password"
+                                    label="Mật khẩu"
                                     name="password"
                                     rules={[
                                         {
@@ -83,18 +103,18 @@ function LoginPage() {
                                 </Form.Item>
 
                                 <Form.Item className='mb-[0] '>
-                                    <div className='flex items-center justify-end '>
+                                    <Link to='/forgot-password' className='flex items-center justify-end '>
                                         <p className='text-[14px] leading-[20px] text-[#2275fc] font-normal cursor-pointer'>
-                                            Forgot password?
+                                            Quên mật khẩu?
                                         </p>
-                                    </div>
+                                    </Link>
                                 </Form.Item>
 
                                 <Form.Item className='mb-0'>
                                     <Button className='mt-[1rem] h-[50px] py-[15px] px-[22px] flex items-center justify-center text-[14px] font-bold leading-[20px] w-full' type="primary"
                                         htmlType='submit'
                                     >
-                                        Login
+                                        Đăng nhập
                                     </Button>
                                 </Form.Item>
                             </Form>

@@ -6,16 +6,17 @@ import { Row, Col } from "antd";
 import VoucherIcon from "../../assets/Admin/VoucherIcon.png";
 import DashboardIcon from "../../assets/Admin/DashboardIcon.jpg";
 import PreOrderIcon from "../../assets/Admin/Pre-orderIcon.png";
-import CampaignIcon from "../../assets/Admin/CampaignIcon.png";
-
+import HistoryTransactions from "../../assets/Admin/HistoryTransactions.png";
+import { useNavigate } from "react-router-dom";
 const SideBarAdmin = () => {
     const location = useLocation();
-
+    const navigate = useNavigate();
+    const Logout = () => { navigate("/login") }
     return (
         <div className="bg-white w-64 h-full shadow-lg p-4 flex flex-col">
             {/* Logo */}
             <div className="flex items-center mb-8">
-                <Link to="/admin/usermanagerment" className="flex items-center w-full">
+                <Link to="/admin" className="flex items-center w-full">
                     <i className="fas fa-home text-2xl text-black"></i>
                     <span className="ml-2 text-xl font-bold">BRESS</span>
                 </Link>
@@ -23,90 +24,106 @@ const SideBarAdmin = () => {
 
             {/* Sidebar Menu */}
             <ul className="space-y-4">
-                {/* User Management */}
-                <Link to="/admin/usermanagerment" className="w-full">
-                    <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/usermanagerment" || location.pathname === "/admin"
-                        ? "bg-blue-500 text-white"
-                        : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-                        }`}>
+                {/* Admin Management */}
+
+                <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/usermanagement" || location.pathname === "/admin"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+                    }`}>
+                    <Link to="/admin/usermanagement" className="flex items-center w-full">
                         <Row gutter={12} align="middle">
+
                             <Col span={10} className="flex justify-center">
                                 <UserOutlined style={{ fontSize: '30px' }} />
                             </Col>
                             <Col span={14}>
-                                <span className="font-medium text-lg">User</span>
+                                <i className="fas fa-tachometer-alt"></i>
+                                <span className="font-medium text-lg">Staff</span>
                             </Col>
-                        </Row>
-                    </li>
-                </Link>
 
-                {/* Campaign Management */}
-                <Link to="/admin/campaignmanagerment" className="w-full">
-                    <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/campaignmanagerment"
-                        ? "bg-blue-500 text-white"
-                        : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-                        }`}>
+                        </Row>
+                    </Link>
+
+                </li>
+
+
+                <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/history-transactions"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+                    }`}>
+                    <Link to="/admin/history-transactions" className="flex items-center w-full">
                         <Row gutter={12} align="middle">
-                            <Col span={6} className="flex justify-center">
-                                <img src={CampaignIcon} alt="Campaign Icon" className="w-8 h-8" />
+                            <Col span={5} className="flex justify-center">
+                                <img src={HistoryTransactions} alt="History Transactions Icon" className="w-8 h-8 no-border" />
                             </Col>
                             <Col span={16}>
-                                <span className="font-medium text-lg">Campaign</span>
+                                <i className="fas fa-tachometer-alt"></i>
+                                <span className="font-medium text-lg">HistoryTransactions</span>
                             </Col>
                         </Row>
-                    </li>
-                </Link>
+                    </Link>
+                </li>
+
 
                 {/* Pre-Order Campaign */}
-                <Link to="/admin/pre-ordercampaign" className="w-full">
-                    <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/pre-ordercampaign"
-                        ? "bg-blue-500 text-white"
-                        : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-                        }`}>
+
+                <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/pre-ordercampaign"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+                    }`}>
+                    <Link to="/admin/pre-ordercampaign" className="flex items-center w-full">
                         <Row gutter={12} align="middle">
                             <Col span={5} className="flex justify-center">
                                 <img src={PreOrderIcon} alt="Pre-Order Icon" className="w-8 h-8" />
                             </Col>
                             <Col span={18}>
-                                <span className="font-medium text-lg">Pre-orderCampaign</span>
+                                <i className="fas fa-tachometer-alt"></i>
+                                <span className="font-medium text-lg">PreorderCampaign</span>
                             </Col>
                         </Row>
-                    </li>
-                </Link>
+                    </Link>
+                </li>
+
 
                 {/* Voucher Management */}
-                <Link to="/admin/voucher" className="w-full">
-                    <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/voucher"
-                        ? "bg-blue-500 text-white"
-                        : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-                        }`}>
+
+                <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/voucher"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+                    }`}>
+                    <Link to="/admin/voucher" className="flex items-center w-full">
                         <Row gutter={12} align="middle">
                             <Col span={8} className="flex justify-center">
                                 <img src={VoucherIcon} alt="Voucher Icon" className="w-10 h-8" />
                             </Col>
                             <Col span={16}>
+                                <i className="fas fa-tachometer-alt"></i>
                                 <span className="font-medium text-lg">Voucher</span>
                             </Col>
                         </Row>
-                    </li>
-                </Link>
+                    </Link>
+                </li>
+
 
                 {/* Dashboard */}
-                <Link to="/admin/dashboard" className="w-full">
-                    <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/dashboard"
-                        ? "bg-blue-500 text-white"
-                        : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-                        }`}>
+
+                <li className={`flex items-center px-4 py-3 rounded-lg transition duration-300 ${location.pathname === "/admin/dashboard"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+                    }`}>
+                    <Link to="/admin/dashboard" className="w-full">
                         <Row gutter={12} align="middle">
                             <Col span={6} className="flex justify-center">
                                 <img src={DashboardIcon} alt="Dashboard Icon" className="w-10 h-8" />
                             </Col>
                             <Col span={16}>
+                                <i className="fas fa-tachometer-alt"></i>
                                 <span className="font-medium text-lg">Dashboard</span>
                             </Col>
                         </Row>
-                    </li>
-                </Link>
+                    </Link>
+                </li>
+
             </ul>
 
             {/* Profile & Logout */}
@@ -125,7 +142,7 @@ const SideBarAdmin = () => {
 
                 {/* Logout Button */}
                 <button
-                    onClick={() => alert("Logout")}
+                    onClick={() => Logout(alert("Logout"))}
                     className="ml-4 p-2 text-gray-500 hover:text-red-500 transition"
                     title="Logout"
                 >

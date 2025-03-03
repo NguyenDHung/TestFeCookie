@@ -1,11 +1,20 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { GetTheActiveVoucherCampaign } from "../../api/VoucherCampaign/ApiVoucherCampaign";
-import useFetchData from "../../hooks/useFetchData";
 import Voucher from "../Voucher";
 import { Spin } from "antd";
+import VoucherCampaignBackground from "../../assets/Background/voucherCampaignBackgroundImage.png";
 function VoucherCampaignSection() {
-  const { data, loading, refetch } = useFetchData(GetTheActiveVoucherCampaign);
+  const [voucherCampaigns,setVoucherCampaigns] = useState([]);
+  const [loading,setLoading] = useState(true);
+  const fetchVoucherCampaigns = async ()=>{
+    var data = await GetTheActiveVoucherCampaign();
+    setVoucherCampaigns(data);
+    setLoading(false);
+  }
+  useEffect(()=>{
+    fetchVoucherCampaigns();
+  },[])
   return (
     <section className="bg-gray-100 py-12 md:min-h-[500px]">
       <div
@@ -14,7 +23,7 @@ function VoucherCampaignSection() {
           padding: "48px",
           borderRadius: "8px",
           backgroundImage:
-            'url("https://img.pikbest.com/backgrounds/20190426/voucher-with-golden-bow_1890652.jpg!bw700',
+            `url(${VoucherCampaignBackground})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed", // Enable parallax effect
@@ -41,9 +50,9 @@ function VoucherCampaignSection() {
             {loading ? (
               <Spin />
             ) : (
-              data.map((item) => {
+              voucherCampaigns?.map((item) => {
                 return (
-                  <div className="col-span-4 mb-4">
+                  <div key={item.voucherCampaignId} className="col-span-4 mb-4">
                     <Voucher
                       VoucherDetail={item}
                       key={item.voucherCampaignId}

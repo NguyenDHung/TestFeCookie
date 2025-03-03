@@ -9,16 +9,14 @@ const OrderManagement = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Nếu URL có trailing slash và không phải là root ("/")
         if (location.pathname !== "/" && location.pathname.endsWith("/")) {
-            // Xóa dấu gạch chéo cuối cùng
             const newPath = location.pathname.slice(0, -1);
             navigate(newPath, { replace: true });
         }
     }, [location, navigate]);
     return (
-        <div className="h-screen flex flex-col overflow-hidden">
-            <div className="flex flex-1 overflow-hidden gap-4 px-4">
+        <div className="h-screen flex flex-col">
+            <div className="flex flex-1 gap-4 px-4">
                 <div className="h-full">
                     <SideBarStaff />
                 </div>
