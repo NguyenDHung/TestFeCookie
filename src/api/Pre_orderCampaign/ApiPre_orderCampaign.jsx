@@ -37,7 +37,7 @@ const CreatePreorderCampaign = async (payload) => {
 
 const UpdatePreorderCampaign = async (id, payload) => {
     try {
-        const response = await api.put(`/PreorderCampaign/UpdatePreorderCampaign/${id}`, payload, axiosConfigHeader);
+        const response = await api.put(`/PreorderCampaign/UpdatePreorderCampaignWithMilestone/${id}`, payload, axiosConfigHeader);
         toast.success("Update successful!");
         return response.data;
     } catch (error) {
@@ -89,9 +89,64 @@ const DeletePendingCampaign = async(id)=>{
     }
 }
 
+const GetActiveDetailPreorderCampaign = async (slug) => {
+	try {
+		const response = await api.get(`/PreorderCampaign/campaign/${slug}`, axiosConfigHeader);
+		return response.data;
+	} catch (error) {
+		console.log('>>> Api Get Blind Box By ID Error: ', error);
+        toast.error("Get active blind box by id failed!");
+		return null;
+	}
+}
+    const GetAllImagesByBlindBoxId = async (blindBoxId) => {
+        try {
+            const response = await api.get(`/Image/GetAllByBlindBoxId/${blindBoxId}`, axiosConfigHeader);
+            return response.data;
+        } catch (error) {
+            console.log('>>> Api Get All Images By Blind Box ID Error: ', error);
+            return [];
+        }
+};
+const ApproveBulkOrderCampaign = async (tempCampaginId) => {
+    try {
+        const response = await api.post(`/TempCampaignBulkOrder/${tempCampaginId}/accept`,{
+
+        }, axiosConfigHeader);
+        toast.success("Approve successful!");
+        return response.data;
+    } catch (error) {
+        console.log('>>> Api Approve campaign Error: ', error);
+        toast.error("Approve failed!");
+    }
+};
+const RejectBulkOrderCampaign = async (tempCampaginId) => {
+    try {
+        const response = await api.post(`/TempCampaignBulkOrder/${tempCampaginId}/reject`,{
+
+        }, axiosConfigHeader);
+        toast.success("Reject successful!");
+        return response.data;
+    } catch (error) {
+        console.log('>>> Api reject campaign Error: ', error);
+        toast.error("Reject failed!");
+    }
+};
+const GetCompletedBulkOrderCampaign = async (pageSize, pageIndex) => {
+    try {
+        const respone = await api.get(`/PreorderCampaign/GetAllCompleteBulkCampaign`,{
+            ...axiosConfigHeader,
+            params: { pageSize, pageIndex },
+        });
+        return respone.data;
+    } catch (error) {
+        console.log('>>> Api Get Completed Bulk order Campaign Error: ', error)
+        toast.error("Get Completed Bulk order campaign failed!");
+    }
+}
+
 export {
     GetTheActivePreorderCampaign, CreatePreorderCampaign,
-    UpdatePreorderCampaign, GetActivePreorderCampaignBySlug, GetActivePreorderCampaignById,DeletePendingCampaign
-
-};
+    UpdatePreorderCampaign, GetActivePreorderCampaignBySlug, GetActivePreorderCampaignById, GetActiveDetailPreorderCampaign,
+    GetAllImagesByBlindBoxId, DeletePendingCampaign,ApproveBulkOrderCampaign, RejectBulkOrderCampaign, GetCompletedBulkOrderCampaign};
 

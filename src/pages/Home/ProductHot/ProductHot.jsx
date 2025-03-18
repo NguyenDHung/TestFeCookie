@@ -29,11 +29,11 @@ const ProductHot = () => {
 								src='https://theme.hstatic.net/1000069970/1001119059/14/icon-flashsale.png?v=6834'
 								alt=''
 							/>
-							<h2 className='text-3xl font-bold text-white'>Tháng 2 khởi sắc, bứt phá vươn xa!</h2>
+							<h2 className='text-3xl font-bold text-white'>Tháng 3 khởi sắc, bứt phá vươn xa!</h2>
 						</div>
-						<div className='relative z-20'>
+						{/* <div className='relative z-20'>
 							<CountdownHot />
-						</div>
+						</div> */}
 
 						{/* Product Grid */}
 						<div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4'>
@@ -62,7 +62,7 @@ const ProductHot = () => {
 									{/* Product Info */}
 									<div className='flex flex-col gap-2 p-4'>
 										<h3 className='text-sm font-medium line-clamp-2'>{product.name}</h3>
-										<p className='text-xs text-gray-500'>{product.description}</p>
+										<p className='text-xs text-gray-500 line-clamp-3'>{product.description}</p>
 										<span className='px-2 py-1 text-xs text-white bg-red-500 rounded-md w-fit'>
 											{product.size}
 										</span>

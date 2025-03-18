@@ -2,11 +2,12 @@ import { Button, Form, Input } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { GoogleLogin } from '@react-oauth/google';
 
 import GoogleIcon from '../../assets/Login/GoogleIcon.png';
 import FacebookIcon from '../../assets/Login/FacebookIcon.png';
 import { AuthContext } from '../../context/AuthContext';
-import { ApiLoginByEmailAndPassword, ApiGetCurrentAccountRole } from '../../api/User/ApiAuthentication';
+import { ApiLoginByEmailAndPassword, ApiGetCurrentAccountRole, ApiLoginWithGoogle } from '../../api/User/ApiAuthentication';
 
 function LoginPage() {
     const [form] = Form.useForm();
@@ -19,9 +20,20 @@ function LoginPage() {
     const CallApiLoginByEmailAndPassword = async (payload) => {
         const responseLogin = await ApiLoginByEmailAndPassword({ payload });
         if (responseLogin?.status === 200) {
-            await CallApiGetCurrentAccountRole();
+            const role = await CallApiGetCurrentAccountRole();
+            console.log('current role:', role);
+
             toast.success('Đăng nhập thành công!');
-            navigate(fromPage, { replace: true });
+            if (role.toLowerCase() == 'admin') {
+                console.log('Dăng nhập admin');
+                navigate('/admin', { replace: true })
+
+            } else if (role.toLowerCase() == 'staff') {
+                navigate('/staff', { replace: true })
+
+            } else {
+                navigate(fromPage, { replace: true });
+            }
         } else {
             toast.error('Đăng nhập thất bại!');
         }
@@ -32,6 +44,7 @@ function LoginPage() {
         setAuth({
             roleName: response.roleName,
         })
+        return response?.roleName
     }
 
     const onFinish = async (values) => {
@@ -40,9 +53,37 @@ function LoginPage() {
 
     // Chặn người dùng đã đăng nhập vào trang login
     const checkRole = () => {
-        if (auth.roleName.toLowerCase() !== 'guest' && fromPage === '/') {
+        if (auth.roleName.toLowerCase() == 'customer') {
             navigate('/')
+        } else if (auth.roleName.toLowerCase() == 'admin') {
+            navigate('/admin')
+        } else if (auth.roleName.toLowerCase() == 'staff') {
+            navigate('/staff')
         }
+    }
+
+    const CallApiLoginWithGoogle = async (credential) => {
+        const response = await ApiLoginWithGoogle(credential)
+        if (response?.status === 200) {
+            const role = await CallApiGetCurrentAccountRole();
+            toast.success('Đăng nhập thành công!');
+
+            if (role.toLowerCase() == 'admin') {
+                navigate('/admin', { replace: true })
+
+            } else if (role.toLowerCase() == 'staff') {
+                navigate('/staff', { replace: true })
+
+            } else {
+                navigate(fromPage, { replace: true });
+            }
+        } else {
+            toast.error('Đăng nhập thất bại!');
+        }
+    }
+
+    const handleLoginWithGoogle = (credential) => {
+        CallApiLoginWithGoogle(credential)
     }
 
     useEffect(() => {
@@ -124,20 +165,28 @@ function LoginPage() {
                             <div className='text-[12px] leading-[15px] text-[#95989d] mb-[16px] text-center'>
                                 Or continue with social account
                             </div>
-                            <div className='flex gap-[16px]'>
-                                <div className='cursor-pointer group hover:bg-[#2275fc] text-[#575864] bg-[#fff] border-[#ecf0f4] h-[50px] py-[15px] px-[22px] flex items-center justify-center text-[14px] gap-[8px] font-bold leading-[20px] border-[1px] border-solid rounded-[12px] w-full '>
+                            <div className='flex gap-[16px] items-center justify-center'>
+                                <GoogleLogin
+                                    onSuccess={credentialResponse => {
+                                        handleLoginWithGoogle(credentialResponse?.credential)
+                                    }}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }} />
+
+                                {/* <div className='cursor-pointer group hover:bg-[#2275fc] text-[#575864] bg-[#fff] border-[#ecf0f4] h-[50px] py-[15px] px-[22px] flex items-center justify-center text-[14px] gap-[8px] font-bold leading-[20px] border-[1px] border-solid rounded-[12px] w-full '>
                                     <img src={GoogleIcon} alt='Google Icon' className='w-[20px] h-[20px]' />
                                     <span className='text-[#111] group-hover:text-[white]'>
                                         Sign in with Google
                                     </span>
-                                </div>
+                                </div> */}
 
-                                <div className='cursor-pointer group hover:bg-[#2275fc] text-[#575864] bg-[#fff] border-[#ecf0f4] h-[50px] py-[15px] px-[22px] flex items-center justify-center text-[14px] gap-[8px] font-bold leading-[20px] border-[1px] border-solid rounded-[12px] w-full'>
+                                {/* <div className='cursor-pointer group hover:bg-[#2275fc] text-[#575864] bg-[#fff] border-[#ecf0f4] h-[50px] py-[15px] px-[22px] flex items-center justify-center text-[14px] gap-[8px] font-bold leading-[20px] border-[1px] border-solid rounded-[12px] w-full'>
                                     <img src={FacebookIcon} alt='Facebook Icon' className='w-[25px] h-[25px]' />
                                     <span className='text-[#111] group-hover:text-[white]'>
                                         Sign in with Facebook
                                     </span>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         {/* Phần để chuyển qua đăng kí nếu chưa có tài khoản */}

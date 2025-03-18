@@ -10,9 +10,7 @@ import { GetTheActivePreorderCampaign } from '../../../api/Pre_orderCampaign/Api
 const tabs = [
 	{ id: 'DỰ ÁN THỊNH HÀNH', label: 'DỰ ÁN THỊNH HÀNH' },
 	{ id: 'MỚI RA MẮT', label: 'MỚI RA MẮT' },
-	{ id: 'MỞ BÁN ĐỢT 2', label: 'MỞ BÁN ĐỢT 2' },
 	{ id: 'SẮP KẾT THÚC', label: 'SẮP KẾT THÚC' },
-	{ id: 'SẮP VỀ HÀNG', label: 'SẮP VỀ HÀNG' },
 ];
 
 const ProductList = ({ title = 'ĐẶT HÀNG VỀ TAY SỚM NHẤT' }) => {
@@ -93,12 +91,12 @@ const ProductList = ({ title = 'ĐẶT HÀNG VỀ TAY SỚM NHẤT' }) => {
 
 										{/* Product Info */}
 										<div className='flex flex-col gap-2 p-4'>
-											<h3 className='text-sm font-medium line-clamp-2'>
-												{product.blindBox?.name}
-											</h3>
-											<p className='text-xs text-gray-500'>{product.blindBox?.description}</p>
+											<h3 className='text-sm font-medium line-clamp-2'>{product?.blindBox.name}</h3>
+											
+											<p className='text-xs text-gray-500 line-clamp-3'>{product?.blindBox.description}</p>
+
 											<span className='px-2 py-1 text-xs text-white bg-red-500 rounded-md w-fit'>
-												{product.blindBox?.size}
+												{product?.blindBox.size}
 											</span>
 
 											{/* Order Progress */}
