@@ -1,3 +1,4 @@
+import { path } from "framer-motion/client";
 import { Fragment, lazy } from "react";
 
 const PreorderCampaignCreate = lazy(() => import("../pages/Admin/Pre-orderCampaign/PreorderCampaignCreate"));
@@ -18,7 +19,6 @@ const AdminView = lazy(() => import("../pages/Admin/AdminView"));
 const Dashboard = lazy(() => import("../pages/Admin/Dashboard"));
 const StaffManagement = lazy(() => import("../pages/Admin/StaffManagement/StaffManagement"));
 const StaffManagementDetails = lazy(() => import("../pages/Admin/StaffManagement/StaffManagementDetails"));
-const PreorderMilestone = lazy(() => import("../pages/Admin/PreorderMilestone"));
 const Pre_orderCampaign = lazy(() => import("../pages/Admin/Pre-orderCampaign/PreorderCampaign"));
 const Pre_orderCampaignDetails = lazy(() => import("../pages/Admin/Pre-orderCampaign/Pre_orderCampaignDetails"));
 const VoucherManagement = lazy(() => import("../pages/Admin/VoucherCampaign/Voucher"));
@@ -41,6 +41,8 @@ const ForgotPassword = lazy(() => import("../pages/Account/ForgotPassword"));
 const SendEmailForgotPassword = lazy(() => import("../pages/Account/SendEmailForgotPassword"));
 const AddNewPassword = lazy(() => import("../pages/Account/AddNewPassword"));
 const MyVoucher = lazy(() => import("../pages/Customer/MyVoucher"));
+const Notifications = lazy(() => import("../pages/Customer/Notifications"));
+const NotificationDetail = lazy(() => import("../pages/Customer/NotificationDetail"));
 
 const PreorderCampaignEdit = lazy(() => import("../pages/Admin/Pre-orderCampaign/PreorderCampaignEdit"));
 const ConfirmBuy = lazy(() => import("../pages/ConfirmBuy/ConfirmBuy"));
@@ -186,9 +188,8 @@ const privateRoutes = [
       { index: true, component: StaffManagement },
       { path: "staffmanagement", component: StaffManagement },
       { path: "staffmanagement-details/:id", component: StaffManagementDetails },
-      { path: "preordermilestone", component: PreorderMilestone },
-      { path: "pre-ordercampaign", component: Pre_orderCampaign },
-      { path: "pre-ordercampaign-details/:slug", component: Pre_orderCampaignDetails },
+      { path: "preordercampaign", component: Pre_orderCampaign },
+      { path: "preordercampaign/details/:slug", component: Pre_orderCampaignDetails },
       { path: "preordercampaign/create", component: PreorderCampaignCreate },
       { path: "preordercampaign/edit/:slug", component: PreorderCampaignEdit },
 
@@ -236,6 +237,18 @@ const privateRoutes = [
       { path: "product/edit/:id", component: ProductEditPage },
     ],
     role: ['Staff']
+  },
+  {
+    path: '/notifications',
+    component: Notifications,
+    layout: DefaultLayout,
+    role: ['Customer']
+  },
+  {
+    path: '/notifications/:id',
+    component: NotificationDetail,
+    layout: DefaultLayout,
+    role: ['Customer']
   },
   {
     path: '/cart',

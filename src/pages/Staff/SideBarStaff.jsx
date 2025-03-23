@@ -1,12 +1,30 @@
-import React from "react";
+
+import React, { useCallback, useEffect, useState } from "react";
 import LogoutButton from "../../assets/Logout/logoutbutton.jpg";
 import { Link, useLocation } from "react-router-dom";
 import useLogout from "../../hooks/useLogout";
-
+import { AuthContext } from "../../context/AuthContext";
+import StaffIcon from "../../assets/icons/staffIcon.png";
+import { ApiGetUserInFormation } from "../../api/User/ApiGetUserInformation";
 
 const SideBarStaff = (props) => {
+
     const location = useLocation();
     const logout = useLogout()
+    const [user, setUser] = useState("");
+    const fetchUserInformation = useCallback(async () => {
+        try {
+            const result = await ApiGetUserInFormation();
+            setUser(result);
+        } catch (error) {
+            console.error("Fetch User Information Error:", error);
+        }
+    }, []);
+    useEffect(() => {
+        fetchUserInformation();
+    }, [fetchUserInformation]);
+
+
     return (
         //<SlideBarStaff />
         <div className="bg-white w-64 h-full shadow-lg p-4 flex flex-col">
@@ -40,15 +58,15 @@ const SideBarStaff = (props) => {
             <div className="mt-auto flex items-center justify-between w-full p-2">
                 <div className="flex items-center">
                     <img
-                        src="https://placehold.co/40x40"
+                        src={user.thumbnail != null ? currentInformation.thumbnail : StaffIcon}
                         alt="Profile picture of Emily Jonson"
                         className="rounded-full"
                         width="40"
                         height="40"
                     />
                     <div className="ml-2">
-                        <div className="text-sm font-semibold">Emily Jonson</div>
-                        <div className="text-xs text-gray-500">jonson@bress.com</div>
+                        <div className="text-sm font-semibold">{user.fullName}</div>
+                        <div className="text-xs text-gray-500">{user.email}</div>
                     </div>
                 </div>
 
