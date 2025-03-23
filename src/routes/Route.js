@@ -58,12 +58,14 @@ const WithdrawTransactionDetail = lazy(() => import("../pages/Admin/WithdrawTran
 const WithdrawTransaction = lazy(() => import("../pages/Admin/WithdrawTransaction/WithdrawTransaction"));
 const UpdatePassword = lazy(() => import("../pages/Account/UpdatePassword"));
 const DepositHistory = lazy(() => import("../pages/Wallet/DepositHistory"));
+const DepositHistoryDetails = lazy(() => import("../pages/Wallet/DepositHistoryDetails"));
 
 const HistoryTransactionsAll = lazy(() => import("../pages/Admin/HistoryTransactions/HistoryTransactionsAll"));
 const HistoryTransactionsRecharge = lazy(() => import("../pages/Admin/HistoryTransactions/HistoryTransactionsRecharge"));
 const HistoryTransactionsPurchase = lazy(() => import("../pages/Admin/HistoryTransactions/HistoryTransactionsPurchase"));
 const HistoryTransactionsWithdraw = lazy(() => import("../pages/Admin/HistoryTransactions/HistoryTransactionsWithdraw"));
 const HistoryTransactionsRefund = lazy(() => import("../pages/Admin/HistoryTransactions/HistoryTransactionsRefund"));
+const AllCampaignPage = lazy(() => import("../pages/AllCampaignPage/AllCampaignPage"));
 
 const publicRoutes = [
   {
@@ -115,6 +117,11 @@ const publicRoutes = [
     path: '/gioi-thieu',
     layout: DefaultLayout,
     component: IntroductionPage
+  },
+  {
+    path: '/san-pham',
+    layout: DefaultLayout,
+    component: AllCampaignPage
   }
 ];
 
@@ -127,6 +134,7 @@ const privateRoutes = [
       { index: true, component: DepositPage, layout: null },
       { path: 'deposit', component: Withdraw, layout: null },
       { path: 'deposit-history', component: DepositHistory, layout: null },
+      { path: 'deposit-history/details/:id', component: DepositHistoryDetails, layout: null },
     ],
     role: ['Customer']
   },

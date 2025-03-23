@@ -1,5 +1,5 @@
 import api from "../instance";
-import { axiosConfigHeader, axiosConfigSendFileHeader } from "../axiosConfigHeader";
+import { axiosConfigHeader } from "../axiosConfigHeader";
 import { toast } from "react-toastify";
 const GetRevenueByTime = async (fromDate, toDate) => {
     try {
@@ -38,4 +38,30 @@ const GetTopThreeCampaign = async (fromDate, toDate) => {
     }
 };
 
-export { GetRevenueByTime, GetTopThreeCampaign };
+const GetLastMonthComparison = async () => {
+    try {
+        const response = await api.get("/DashBoard/last-month-comparison", axiosConfigHeader);
+        console.log("Raw API Response:", response.data); // In dữ liệu trả về
+        return response.data;
+    } catch (error) {
+        console.log(">>> API Get last month comparison  Error: ", error);
+        toast.error("Get last month comparison failed!");
+        return [];
+    }
+};
+
+const GetMonthlyReport_byYear = async (accessToken, Year) => {
+    try {
+        const result = await api.get(`/DashBoard/monthly-report/${Year}`, {
+            ...axiosConfigHeader,
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+            },
+        });
+        return result.data;
+    } catch (error) {
+        console.log('>>> GetUserInformation error: ', error);
+        return null;
+    }
+};
+export { GetRevenueByTime, GetTopThreeCampaign, GetLastMonthComparison, GetMonthlyReport_byYear };
